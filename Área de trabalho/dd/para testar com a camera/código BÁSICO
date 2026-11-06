@@ -1,0 +1,146 @@
+
+
+                        COMANDOS BÁSICOS E PARA O QUE SERVEM:
+cv2.imagem 
+#esse comando sere para passar a imagem do computador para a variável imagem.
+
+"./img/imagem.jpeg"
+# esse ébasicamente o caminho que a gente fala que o computador tem que fazer para achare a imagem 
+
+if imagem is None
+#esse 'none' serve para representar a ausencia de um valor e imprimir a mensagem de erro
+
+mascara = segmentar_amarelo(imagem)
+# serve para guardar o resultado da imagem que vem da função segmentar_amarelo, na variável 'mascara'.
+
+
+
+
+
+
+'''kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
+cv2.getStructuringElement
+#esse comando cria a matriz auxiliar
+cv2.MORPH_ELLIPSE
+#esse é o que da o formato que será usado de modelo para corrigir máscara
+(9,9)esse é o tamanho da matriz
+
+# Essa linha cria uma matriz de referência em formato elíptico
+# (um formato parecido com um oval).
+# Essa matriz será utilizada pelas operações morfológicas
+# para ajudar a corrigir pequenas falhas na máscara,
+# como buracos pretos dentro das regiões brancas.
+
+mascara = cv2.morphologyEx(mascara, cv2.MORPH_CLOSE, kernel, iterations=3)
+#essa linha vai ampliar o pontos pretos falhados e depois utilizar okernel para corrigi-los
+
+mascara = cv2.morphologyEx(mascara, cv2.MORPH_OPEN, kernel, iterations=1)'''
+#essa linha tenta remover pequenos ruidos brancos da máscara, ele tenta fechar todos os ruidos
+# iterations=1 isso é quantas vezes ele vai fazer esse processo
+
+
+contornos, _ = cv2.findContours(mascara, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)'''
+#essa linha é utilizada para extrair os pixels que formam a borda da circunferencia
+
+resultado = imagem.copy()
+#essa linha só serve para fazer uma cópia da imagem original na variável resultado
+
+for c in contornos:
+#essa linha é utilizada para analisar circulo porcirculo
+
+        area = cv2.contourArea(c)
+        #esse calcula a area de cada esfera.
+
+
+          if area < 20:  # ignora ruídos pequeno
+            continue
+            # essas duas linhas trabalham juntas,funciona basicamente assim:
+            # se a area for menor que 20 pixel² ele ignora e o 'continue' é basicamente para ele ignorar esse contorno e continuar a analise;o break 
+
+
+
+
+
+
+       
+
+
+(x, y), raio = cv2.minEnclosingCircle(c)
+# Círculo mínimo que envolve o contorno todo
+# nessa linha o cv2.minEnclosing... recebe 'c' como parâmetro, que é o contorno encontrado peloopenCv
+# raio recebe a distância do centro até a orda desse circulo
+ # x, y são as cordenadas do centro do circulo
+
+x, y, raio = int(x), int(y), int(raio)
+# essa linha só serve para transformar os numeros em inteiros
+
+cv2.circle(resultado, (x, y), raio, (0, 255, 0), 2)
+ # essa linha é usada para fazer um circulo(verde), em volta da boliha detctada, com base nas cordenadas, raio e medidas que achamos lá emcima
+       
+cv2.circle(resultado, (x, y), 3, (0, 0, 255), -1)
+# essa linha serve para desenhar a bolinha vermelha no centrodo circulo verde, para identificar o centro da esfera. será muito util para nosso trabalho.
+
+
+cv2.namedWindow("Imagem original", cv2.WINDOW_NORMAL)
+cv2.resizeWindow("Imagem original", 640, 480)
+#esses dois comandos servem para redimensionar o tamanho da janela,mas cada uma tem uma função:
+    cv2.namedWindow("Imagem original", cv2.WINDOW_NORMAL)
+    #essa serve para criar uma janela, e fazer com que seja possivel modificar o tamanho da imagem como mouse.
+        cv2.nameWindow serve para criar a janela para exibir a imagem
+        "imagem original" é o nome da janela que será criada
+        cv2.WINDOW_NORMAL serve para que você consiga redimensionar o tamanho da sua janela, até usando o mouse.
+
+    cv2.resizeWindow("Imagem original", 640, 480)
+    #essa linha é o que dá o tamanho original da sua janela, quando você clica para executar, o tamanho daquela primeira janela sai daqui.
+        cv2.resizeWindow esse comando é o que faz ser possivel dimensionar a janela.
+        "imagem original" é o nome da janela que será criada
+        640 largura da janela em pixel
+        480 altura da janela em pixels
+
+        
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        CÓDIGO APENAS PARA LER A IMAGEM, PASSAR O FILTROE MOSTRA NA TELA
+
+
+
+o cv2.GaussianBlur é o filtro gaussiano, (imagem, (3,3), 0)= o'imagem', é a imagem de entrada , que foi definida la em cima;
+ o '(3,3) é o tamanho do kernel(kernel é basicamente uma matriz de pixel,que nós definimos como 3x3, que vai calcular um novo valor para o pixel central usando uma média ponderada dos pixels vizinhos, no qual os pixels próximos tem amior influencia);
+ ja o '0',serve para mandar o openCv2 calcular o sigma da matriz automaticamente, se mudasse o valor de 0para qualquer outro valor, o segma não seria calculado automaticamente, ele seria o numero que colocamos.
+imagem_filtro_gaussiano = cv2.GaussianBlur(imagem,(3,3), 0)
+
+serve para salva a imagem processada em um arquivo
+o './' serve para o código abrir a imagem com base no caminho que eu forneci pra ele, ele vai entar na parta geral e depois vai entar na pasta que fica as imagens
+salvou = cv2.imwrite('./img/imagem_filtrada.jpg', imagem_filtro_gaussiano)
+
+#verificação para ver se a imagem foi de fato salva
+if salvou:
+    print("Imagem filtrada salva com sucesso.")
+else:
+    print("Erro ao salvar a imagem.")
+
+#esse comndo serve para abrir umaaba coma imagem
+cv2.imshow("image filtrada", imagem_filtro_gaussiano)
+
+
+#esse comando serve para fechara aba, eleespera você clicar em uma tecla e fecha aba
+cv2.waitKey(0)
+cv2.destroyAllWindows()'''
